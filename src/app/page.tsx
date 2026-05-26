@@ -71,13 +71,6 @@ export default function Home() {
               </a>
             ))}
           </div>
-          <Link
-            href="/login"
-            className="px-5 py-2 rounded-full text-sm font-medium text-white transition-all hover:opacity-85"
-            style={{ backgroundColor: "#2d6a4f" }}
-          >
-            Staff Login
-          </Link>
         </div>
       </nav>
 
@@ -85,7 +78,7 @@ export default function Home() {
       <section className="relative min-h-screen flex items-end pb-20 pt-24 overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="/images/hero.jpeg"
+            src="/images/wallpapermoma.jpeg"
             alt="Morning Mama Cafe Interior"
             fill
             className="object-cover"
@@ -351,15 +344,24 @@ export default function Home() {
             <span className="text-sm font-semibold text-white/80">Morning Mama</span>
           </div>
           <p className="text-xs text-white/40">© {new Date().getFullYear()} Morning Mama Cafe · Banda Aceh</p>
-          <a
-            href="https://instagram.com/hellomorningmama"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs hover:underline transition-colors"
-            style={{ color: "#52b788" }}
-          >
-            @hellomorningmama
-          </a>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/login"
+              className="text-xs hover:underline transition-colors"
+              style={{ color: "#52b788" }}
+            >
+              Staff Login
+            </Link>
+            <a
+              href="https://instagram.com/hellomorningmama"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs hover:underline transition-colors"
+              style={{ color: "#52b788" }}
+            >
+              @hellomorningmama
+            </a>
+          </div>
         </div>
       </footer>
 
@@ -387,7 +389,7 @@ export default function Home() {
                 Pesan via GoFood
               </a>
               <a
-                href="https://grab.onelink.me/2695613898"
+                href="https://food.grab.com/id/id/restaurant/morning-mama-lamlagang-delivery/6-C36TJRKGVKDCSE"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block w-full py-4 rounded-xl text-center font-medium text-white transition-all hover:opacity-90"
