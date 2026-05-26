@@ -1,0 +1,16 @@
+{
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/api/menu/[id]/route": "app/api/menu/[id]/route.js",
+  "/api/menu/route": "app/api/menu/route.js",
+  "/api/seed/route": "app/api/seed/route.js",
+  "/api/stock-items/route": "app/api/stock-items/route.js",
+  "/api/stock-opname/route": "app/api/stock-opname/route.js",
+  "/dashboard/menu/page": "app/dashboard/menu/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/stock-opname/page": "app/dashboard/stock-opname/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/login/page": "app/login/page.js",
+  "/page": "app/page.js"
+}

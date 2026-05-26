@@ -1,0 +1,74 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  STAFF
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(STAFF)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id        String     @id @default(cuid())
+  name      String     @unique
+  menuItems MenuItem[]
+  createdAt DateTime   @default(now())
+}
+
+model MenuItem {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  price       Float
+  imageUrl    String?
+  isAvailable Boolean  @default(true)
+  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model StockItem {
+  id           String        @id @default(cuid())
+  name         String        @unique
+  unit         String
+  currentStock Float         @default(0)
+  minStock     Float         @default(0)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  opnameItems  OpnameItem[]
+}
+
+model StockOpname {
+  id          String       @id @default(cuid())
+  date        DateTime     @default(now())
+  notes       String?
+  createdById String
+  opnameItems OpnameItem[]
+  createdAt   DateTime     @default(now())
+}
+
+model OpnameItem {
+  id            String      @id @default(cuid())
+  stockOpname   StockOpname @relation(fields: [stockOpnameId], references: [id])
+  stockOpnameId String
+  stockItem     StockItem   @relation(fields: [stockItemId], references: [id])
+  stockItemId   String
+  systemStock   Float
+  actualStock   Float
+  difference    Float
+}

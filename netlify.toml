@@ -1,0 +1,7 @@
+[build]
+  command = "pnpm exec prisma generate && pnpm run build"
+
+[build.environment]
+  NODE_VERSION = "20"
+  PNPM_VERSION = "9"
+  NETLIFY_NEXT_DISABLE_BLOBS = "true"

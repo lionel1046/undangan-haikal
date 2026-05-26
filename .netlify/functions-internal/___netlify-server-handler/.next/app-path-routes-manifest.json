@@ -1,0 +1,16 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/api/auth/[...nextauth]/route": "/api/auth/[...nextauth]",
+  "/api/menu/[id]/route": "/api/menu/[id]",
+  "/api/menu/route": "/api/menu",
+  "/api/seed/route": "/api/seed",
+  "/api/stock-items/route": "/api/stock-items",
+  "/api/stock-opname/route": "/api/stock-opname",
+  "/dashboard/menu/page": "/dashboard/menu",
+  "/dashboard/page": "/dashboard",
+  "/dashboard/stock-opname/page": "/dashboard/stock-opname",
+  "/favicon.ico/route": "/favicon.ico",
+  "/login/page": "/login",
+  "/page": "/"
+}
