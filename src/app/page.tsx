@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { menuHighlights, galleryImages, promoSlides } from "@/lib/menu-data";
+import FullMenuSection from "@/components/FullMenuSection";
 
 export default function Home() {
   const [showOrderPopup, setShowOrderPopup] = useState(false);
@@ -194,6 +195,7 @@ export default function Home() {
               </div>
             ))}
           </div>
+          <FullMenuSection />
         </div>
       </section>
 
