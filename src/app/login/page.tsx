@@ -55,7 +55,7 @@ export default function LoginPage() {
             Morning Mama
           </h1>
           <p className="text-base opacity-70 leading-7">
-            Portal khusus untuk admin dan staff Morning Mama Cafe Banda Aceh.
+            Laman Website Karyawan Morning Mama Cafe Banda Aceh.
           </p>
           <div className="mt-10 pt-10 border-t border-white/20">
             <p className="text-xs opacity-50 tracking-widest uppercase">Banda Aceh, Aceh</p>
@@ -85,7 +85,7 @@ export default function LoginPage() {
             Masuk ke Dashboard
           </h2>
           <p className="text-sm mb-8" style={{ color: "#2d3a2d" }}>
-            Silakan login dengan akun staff Anda
+            Silakan login dengan akun Anda
           </p>
 
           {error && (

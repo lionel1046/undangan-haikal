@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import MenuPreview from "@/components/MenuPreview";
+
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -56,6 +58,9 @@ export default async function DashboardPage() {
           </div>
         ))}
       </div>
+
+      {/* Menu Digital Section */}
+      <MenuPreview />
 
       <div className="grid md:grid-cols-2 gap-6">
         {/* Recent Opname */}

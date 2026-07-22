@@ -72,3 +72,17 @@ model OpnameItem {
   actualStock   Float
   difference    Float
 }
+
+model DailyStockRecord {
+  id          String   @id @default(cuid())
+  itemName    String
+  initialStock Float
+  incoming    Float   @default(0)
+  outgoing    Float   @default(0)
+  finalStock  Float
+  difference  Float
+  date        DateTime
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

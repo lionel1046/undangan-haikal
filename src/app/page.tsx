@@ -1,50 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-
-const menuHighlights = [
-  {
-    name: "Mama with Sunshine",
-    desc: "Matcha 1 liter segar, tersedia dalam kemasan 500ml & 1 liter. Bisa pesan via GrabFood & GoFood.",
-    price: "mulai Rp 35.000",
-    img: "/images/menu-matcha.jpeg",
-  },
-  {
-    name: "Lotus Biscoff",
-    desc: "Kreasi spesial minuman latte dengan lotus biscoff yang creamy dan gurih.",
-    price: "Rp 38.000",
-    img: "/images/menu-biscoff.jpeg",
-  },
-  {
-    name: "Basque Burnt Cheesecake",
-    desc: "Cheesecake slice lembut dengan topping strawberry jam, disajikan di atas piring hijau khas Morning Mama.",
-    price: "Rp 32.000",
-    img: "/images/menu-cheesecake.jpeg",
-  },
-  {
-    name: "Mie Wonton Kuah",
-    desc: "Semangkuk mie wonton berkuah bening yang hangat dan lezat, sajian andalan Morning Mama.",
-    price: "Rp 45.000",
-    img: "/images/menu-wonton.jpeg",
-  },
-];
-
-const galleryImages = [
-  "/images/gallery-1.jpeg",
-  "/images/gallery-2.jpeg",
-  "/images/gallery-3.jpeg",
-  "/images/gallery-4.jpeg",
-  "/images/gallery-5.jpeg",
-  "/images/gallery-6.jpeg",
-  "/images/gallery-7.jpeg",
-  "/images/gallery-8.jpeg",
-  "/images/gallery-9.jpeg",
-];
+import { menuHighlights, galleryImages, promoSlides } from "@/lib/menu-data";
 
 export default function Home() {
   const [showOrderPopup, setShowOrderPopup] = useState(false);
+  const [showPromoPopup, setShowPromoPopup] = useState(false);
+  const [promoSlide, setPromoSlide] = useState(0);
+
+  useEffect(() => {
+    const dismissed = sessionStorage.getItem("promo-dismissed");
+    if (!dismissed) {
+      const timer = setTimeout(() => setShowPromoPopup(true), 1200);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  function closePromo() {
+    sessionStorage.setItem("promo-dismissed", "1");
+    setShowPromoPopup(false);
+  }
+
+  function prevSlide() {
+    setPromoSlide((s) => (s - 1 + promoSlides.length) % promoSlides.length);
+  }
+
+  function nextSlide() {
+    setPromoSlide((s) => (s + 1) % promoSlides.length);
+  }
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#f7f5f0" }}>
@@ -364,6 +349,72 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Promo Popup Modal */}
+      {showPromoPopup && (
+        <div
+          className="fixed inset-0 z-[110] flex flex-col"
+          style={{ backgroundColor: "#000" }}
+        >
+          {/* Close button */}
+          <button
+            onClick={closePromo}
+            className="absolute top-4 right-4 z-20 w-10 h-10 flex items-center justify-center rounded-full text-white font-bold text-xl leading-none shadow-lg"
+            style={{ backgroundColor: "rgba(0,0,0,0.55)" }}
+          >
+            ×
+          </button>
+
+          {/* Full screen image */}
+          <div className="relative flex-1 min-h-0">
+            <Image
+              key={promoSlide}
+              src={promoSlides[promoSlide].src}
+              alt={promoSlides[promoSlide].alt}
+              fill
+              className="object-contain"
+              priority
+            />
+
+            {/* Prev / Next */}
+            <button
+              onClick={prevSlide}
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center rounded-full text-white font-bold text-2xl shadow-lg"
+              style={{ backgroundColor: "rgba(0,0,0,0.45)" }}
+            >
+              ‹
+            </button>
+            <button
+              onClick={nextSlide}
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center rounded-full text-white font-bold text-2xl shadow-lg"
+              style={{ backgroundColor: "rgba(0,0,0,0.45)" }}
+            >
+              ›
+            </button>
+          </div>
+
+          {/* Dots & dismiss */}
+          <div className="flex flex-col items-center gap-3 py-4 flex-shrink-0" style={{ backgroundColor: "#111" }}>
+            <div className="flex items-center gap-2">
+              {promoSlides.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setPromoSlide(i)}
+                  className="w-3 h-3 rounded-full transition-all"
+                  style={{ backgroundColor: i === promoSlide ? "#2d6a4f" : "#555" }}
+                />
+              ))}
+            </div>
+            <button
+              onClick={closePromo}
+              className="text-sm underline"
+              style={{ color: "#aaa" }}
+            >
+              Tutup & jangan tampilkan lagi
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Order Popup Modal */}
       {showOrderPopup && (
