@@ -8,14 +8,14 @@ export async function GET() {
     return NextResponse.json({ message: "Admin sudah ada", email: "admin@morningmama.com" });
   }
 
-  const hash = await bcrypt.hash("admin123", 10);
+  const hash = await bcrypt.hash("BersinarTerang2026", 10);
 
   const [admin, staffUser] = await Promise.all([
     prisma.user.create({
       data: { name: "Admin Morning Mama", email: "admin@morningmama.com", password: hash, role: "ADMIN" },
     }),
     prisma.user.create({
-      data: { name: "Staff Morning Mama", email: "staff@morningmama.com", password: await bcrypt.hash("staff123", 10), role: "STAFF" },
+      data: { name: "Staff Morning Mama", email: "staff@morningmama.com", password: await bcrypt.hash("staff2026", 10), role: "STAFF" },
     }),
   ]);
 
@@ -45,8 +45,8 @@ export async function GET() {
   return NextResponse.json({
     message: "Seed berhasil!",
     users: [
-      { role: "ADMIN", email: "admin@morningmama.com", password: "admin123" },
-      { role: "STAFF", email: "staff@morningmama.com", password: "staff123" },
+      { role: "ADMIN", email: "admin@morningmama.com", password: "BersinarTerang2026" },
+      { role: "STAFF", email: "staff@morningmama.com", password: "staff2026" },
     ],
   });
 }

@@ -54,7 +54,7 @@ export default function MenuPreview() {
             </div>
 
             {/* Image Preview Container */}
-            <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl bg-cream/30 border border-cream/20">
+            <div className="relative aspect-[1190/842] w-full overflow-hidden rounded-xl bg-cream/30 border border-cream/20">
               <Image
                 src={menu.src}
                 alt={menu.title}

@@ -48,7 +48,7 @@ export default function FullMenuSection() {
             {/* Responsive Image Preview Container */}
             <div 
               onClick={() => setActiveImage(menu.src)}
-              className="relative cursor-pointer group overflow-hidden rounded-2xl border aspect-[3/4]"
+              className="relative cursor-pointer group overflow-hidden rounded-2xl border aspect-[1190/842]"
               style={{ borderColor: "rgba(26, 46, 26, 0.05)", backgroundColor: "#fbfaf7" }}
             >
               <Image

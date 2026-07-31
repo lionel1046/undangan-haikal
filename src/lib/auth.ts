@@ -55,4 +55,9 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
+  // Production domain configuration
+  ...(process.env.NODE_ENV === "production" && {
+    // Use the production domain for NextAuth
+    useSecureCookies: true,
+  }),
 };
