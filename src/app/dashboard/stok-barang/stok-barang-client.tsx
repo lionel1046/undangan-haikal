@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 type StockRecord = {
   id: string;
@@ -57,23 +57,41 @@ function computeStats(records: StockRecord[]): Stats {
 }
 
 export default function StokBarangClient({
-  initialRecords,
-  stats: initialStats,
   isAdmin,
 }: {
-  initialRecords: StockRecord[];
-  stats: Stats;
   isAdmin: boolean;
 }) {
-  const [records, setRecords] = useState<StockRecord[]>(initialRecords);
-  const [stats, setStats] = useState<Stats>(initialStats);
+  const [records, setRecords] = useState<StockRecord[]>([]);
+  const [stats, setStats] = useState<Stats>({
+    totalItems: 0,
+    totalOutToday: 0,
+    lowStockCount: 0,
+    totalStockAvailable: 0,
+  });
+  const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [dateFilter, setDateFilter] = useState("");
   const [toast, setToast] = useState<Toast>(null);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  async function fetchData() {
+    try {
+      const response = await fetch("/api/stock-records");
+      const data = await response.json();
+      setRecords(data);
+      setStats(computeStats(data));
+    } catch (error) {
+      console.error("Failed to fetch stock records:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const [formData, setFormData] = useState({
     itemName: "",
@@ -97,12 +115,7 @@ export default function StokBarangClient({
 
   /** Fetch all records from server and update state + stats */
   const refreshRecords = useCallback(async () => {
-    const res = await fetch("/api/stock-records");
-    if (res.ok) {
-      const data: StockRecord[] = await res.json();
-      setRecords(data);
-      setStats(computeStats(data));
-    }
+    await fetchData();
   }, []);
 
   async function handleSubmit(e: React.FormEvent) {

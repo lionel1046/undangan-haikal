@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useSession } from "next-auth/react";
 
 type StockItem = { id: string; name: string; unit: string; currentStock: number; minStock: number };
@@ -24,20 +24,14 @@ function ToastNotification({ toast, onClose }: { toast: Toast; onClose: () => vo
   );
 }
 
-export default function StockOpnameClient({
-  stockItems: initialStockItems,
-  opnameList: initialOpnameList,
-}: {
-  stockItems: StockItem[];
-  opnameList: StockOpname[];
-}) {
+export default function StockOpnameClient() {
   const { data: session } = useSession();
-  const [stockItems, setStockItems] = useState<StockItem[]>(initialStockItems);
-  const [opnameList, setOpnameList] = useState<StockOpname[]>(initialOpnameList);
+  const [stockItems, setStockItems] = useState<StockItem[]>([]);
+  const [opnameList, setOpnameList] = useState<StockOpname[]>([]);
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [showAddStock, setShowAddStock] = useState(false);
   const [showEditStock, setShowEditStock] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [deletingOpnameId, setDeletingOpnameId] = useState<string | null>(null);
   const [deletingItemId, setDeletingItemId] = useState<string | null>(null);
   const [selectedOpname, setSelectedOpname] = useState<StockOpname | null>(null);
@@ -46,6 +40,29 @@ export default function StockOpnameClient({
   const [newStock, setNewStock] = useState({ name: "", unit: "kg", currentStock: "", minStock: "" });
   const [editingStock, setEditingStock] = useState<StockItem | null>(null);
   const [toast, setToast] = useState<Toast>(null);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  async function fetchData() {
+    try {
+      const [stockRes, opnameRes] = await Promise.all([
+        fetch("/api/stock-items"),
+        fetch("/api/stock-opname"),
+      ]);
+      const [stockData, opnameData] = await Promise.all([
+        stockRes.json(),
+        opnameRes.json(),
+      ]);
+      setStockItems(stockData);
+      setOpnameList(opnameData);
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   function showToast(message: string, type: ToastType) {
     setToast({ message, type });
