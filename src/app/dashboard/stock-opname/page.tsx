@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import StockOpnameClient from "./stock-opname-client";
 
+export const dynamic = 'force-dynamic';
+
 export default async function StockOpnamePage() {
   const [stockItems, opnameList] = await Promise.all([
     prisma.stockItem.findMany({ orderBy: { name: "asc" } }),
