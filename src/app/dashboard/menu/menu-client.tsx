@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 type Category = { id: string; name: string };
@@ -15,17 +15,14 @@ type MenuItem = {
   categoryId: string;
 };
 
-export default function MenuClient({
-  menuItems,
-  categories,
-}: {
-  menuItems: MenuItem[];
-  categories: Category[];
-}) {
+export default function MenuClient() {
   const router = useRouter();
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editItem, setEditItem] = useState<MenuItem | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [formLoading, setFormLoading] = useState(false);
   const [filterCat, setFilterCat] = useState("");
 
   const [form, setForm] = useState({
@@ -38,6 +35,29 @@ export default function MenuClient({
   });
   const [uploading, setUploading] = useState(false);
   const [dragOver, setDragOver] = useState(false);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  async function fetchData() {
+    try {
+      const [menuRes, catRes] = await Promise.all([
+        fetch("/api/menu"),
+        fetch("/api/categories/ensure"),
+      ]);
+      const [menuData, catData] = await Promise.all([
+        menuRes.json(),
+        catRes.json(),
+      ]);
+      setMenuItems(menuData);
+      setCategories(catData);
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   function openAdd() {
     setEditItem(null);
@@ -69,20 +89,20 @@ export default function MenuClient({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setLoading(true);
+    setFormLoading(true);
     const body = { ...form, price: parseFloat(form.price) };
     const url = editItem ? `/api/menu/${editItem.id}` : "/api/menu";
     const method = editItem ? "PUT" : "POST";
     await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-    setLoading(false);
+    setFormLoading(false);
     setShowModal(false);
-    router.refresh();
+    fetchData();
   }
 
   async function handleDelete(id: string) {
     if (!confirm("Hapus item ini?")) return;
     await fetch(`/api/menu/${id}`, { method: "DELETE" });
-    router.refresh();
+    fetchData();
   }
 
   const filtered = filterCat ? menuItems.filter((m) => m.categoryId === filterCat) : menuItems;
@@ -134,7 +154,11 @@ export default function MenuClient({
 
       {/* Table */}
       <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
-        {filtered.length === 0 ? (
+        {loading ? (
+          <div className="text-center py-16">
+            <p className="text-sm" style={{ color: "#9a7a6a" }}>Loading...</p>
+          </div>
+        ) : filtered.length === 0 ? (
           <div className="text-center py-16">
             <span className="text-5xl">🍽️</span>
             <p className="mt-4 text-sm" style={{ color: "#9a7a6a" }}>Belum ada item menu. Tambahkan yang pertama!</p>

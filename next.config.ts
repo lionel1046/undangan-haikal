@@ -23,6 +23,10 @@ const nextConfig: NextConfig = {
     // Add production-specific configuration
     assetPrefix: undefined,
   }),
+  // Disable static optimization
+  experimental: {
+    optimizeCss: false,
+  },
 };
 
 export default nextConfig;
