@@ -51,7 +51,7 @@ export default function MenuClient() {
         catRes.json(),
       ]);
       setMenuItems(menuData);
-      setCategories(catData);
+      setCategories(catData.categories || []);
     } catch (error) {
       console.error("Failed to fetch data:", error);
     } finally {
