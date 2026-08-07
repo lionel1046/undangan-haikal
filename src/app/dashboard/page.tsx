@@ -3,6 +3,8 @@ import { authOptions } from "@/lib/auth";
 import DashboardClient from "./dashboard-client";
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);

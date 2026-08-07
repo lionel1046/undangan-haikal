@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: "Morning Mama – Cafe Banda Aceh | Kopi & Makanan Lezat",
   description: "Morning Mama Cafe di Banda Aceh. Nikmati kopi artisan, matcha, cheesecake, dan menu lezat lainnya. Tersedia delivery via GrabFood & GoFood. Buka setiap hari 08.30 - 23.30.",

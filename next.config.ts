@@ -23,6 +23,11 @@ const nextConfig: NextConfig = {
     // Add production-specific configuration
     assetPrefix: undefined,
   }),
+  // Disable static generation completely
+  output: 'standalone',
+  experimental: {
+    serverComponentsExternalPackages: ['@prisma/client'],
+  },
 };
 
 export default nextConfig;
