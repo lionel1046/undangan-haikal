@@ -77,10 +77,21 @@ export async function POST(req: Request) {
       orderBy: { name: "asc" },
     });
 
+    // Also update the opname date to today if it was set differently
+    const updatedOpname = await prisma.stockOpname.update({
+      where: { id: opname.id },
+      data: { date: new Date() },
+      include: {
+        opnameItems: {
+          include: { stockItem: true },
+        },
+      },
+    });
+
     const serializedOpname = {
-      ...opname,
-      date: opname.date.toISOString(),
-      createdAt: opname.createdAt.toISOString(),
+      ...updatedOpname,
+      date: updatedOpname.date.toISOString(),
+      createdAt: updatedOpname.createdAt.toISOString(),
     };
 
     return NextResponse.json({ opname: serializedOpname, stockItems: updatedStockItems }, { status: 201 });

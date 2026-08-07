@@ -28,6 +28,9 @@ export default function DashboardClient({
 
   useEffect(() => {
     fetchDashboardData();
+    // Auto-refresh every 30 seconds
+    const interval = setInterval(fetchDashboardData, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   async function fetchDashboardData() {
